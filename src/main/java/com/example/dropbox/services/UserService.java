@@ -1,5 +1,6 @@
 package com.example.dropbox.services;
 
+import com.example.dropbox.models.User;
 import com.example.dropbox.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,11 @@ public class UserService implements UserDetailsService {
              PasswordEncoder encoder) {
          this.userRepository = userRepository;
          this.encoder = encoder;
+
+         var existing = this.userRepository.findByUsername("admin");
+         if(existing.isEmpty()) {
+             this.userRepository.save(new User("admin", "admin@admin.se", encoder.encode("admin")));
+         }
      }
 
 
