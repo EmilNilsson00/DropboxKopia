@@ -36,7 +36,7 @@ public class JWTVerifyFilter extends OncePerRequestFilter {
         }
 
         try {
-            var algorithm = Algorithm.HMAC256("secret code");
+            var algorithm = Algorithm.HMAC256("Hej Wiliam");
             var verifier = JWT.require(algorithm)
                     .withIssuer("auth0")
                     .build();

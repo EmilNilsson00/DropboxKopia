@@ -22,10 +22,7 @@ public class UserService implements UserDetailsService {
          this.userRepository = userRepository;
          this.encoder = encoder;
 
-         var existing = this.userRepository.findByUsername("admin");
-         if(existing.isEmpty()) {
-             this.userRepository.save(new User("admin", "admin@admin.se", encoder.encode("admin")));
-         }
+
      }
 
 

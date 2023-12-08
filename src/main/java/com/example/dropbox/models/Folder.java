@@ -18,6 +18,7 @@ public class Folder {
     private UUID id;
     private String name;
 
+    @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
 
