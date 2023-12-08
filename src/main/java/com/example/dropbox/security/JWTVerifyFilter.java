@@ -24,6 +24,7 @@ public class JWTVerifyFilter extends OncePerRequestFilter {
         this.userService = userService;
     }
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
