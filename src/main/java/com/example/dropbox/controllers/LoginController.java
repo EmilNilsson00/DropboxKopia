@@ -26,11 +26,10 @@ public class LoginController {
         var result = authProvider.authenticate(auth);
 
         if (result.isAuthenticated()) {
-            var algoritm = Algorithm.HMAC256("Hej Wiliam");
+            var algoritm = Algorithm.HMAC256("Hej William");
             var token = JWT.create()
                     .withSubject(username)
                     .withIssuer("auth0")
-                    .withClaim("favoritMat", "tacos")
                     .sign(algoritm);
 
             return token;
