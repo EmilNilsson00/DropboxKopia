@@ -36,4 +36,8 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Couldn't find user '" + username + "'."));
         return user;
     }
+
+    public AuthenticationResponse {
+
+    }
 }
