@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/register").permitAll()
-
+                        .requestMatchers("/uploadFile").permitAll()
                         .anyRequest().authenticated());
 
         return security.build();
