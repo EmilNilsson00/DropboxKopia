@@ -1,5 +1,6 @@
 package com.example.dropbox.services;
 
+import com.example.dropbox.models.User;
 import com.example.dropbox.repositories.FolderRepository;
 import com.example.dropbox.security.CheckAuth;
 import org.springframework.beans.factory.annotation.Autowired;
