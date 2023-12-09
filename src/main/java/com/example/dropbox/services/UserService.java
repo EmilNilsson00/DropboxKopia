@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.example.dropbox.dtos.RegisterDto;
 import com.example.dropbox.models.User;
 import com.example.dropbox.repositories.UserRepository;
-import com.example.dropbox.security.AuthenticationResponse;
+import com.example.dropbox.dtos.AuthenticationResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,13 +43,13 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public AuthenticationResponse register(RegisterDto registerDto) {
+    public AuthenticationResponseDto register(RegisterDto registerDto) {
         Optional<User> EmailAlreadyExists = userRepository.findByEmail(registerDto.getEmail());
         Optional<User> UsernameAlreadyExists = userRepository.findByUsername(registerDto.getUsername());
 
 
         if ( EmailAlreadyExists.isPresent()) {
-            AuthenticationResponse response = new AuthenticationResponse();
+            AuthenticationResponseDto response = new AuthenticationResponseDto();
             response.setError(true);
             response.setToken(null);
             response.setMessage("Email is already in use.");
@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
             return response;
 
         } else if ( UsernameAlreadyExists.isPresent()) {
-            AuthenticationResponse response = new AuthenticationResponse();
+            AuthenticationResponseDto response = new AuthenticationResponseDto();
             response.setError(true);
             response.setToken(null);
             response.setMessage("Username is already in use.");
@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
                     .withSubject(registerDto.getUsername())
                     .withIssuer("auth0")
                     .sign(algorithm);
-            AuthenticationResponse response = new AuthenticationResponse();
+            AuthenticationResponseDto response = new AuthenticationResponseDto();
             response.setError(false);
             response.setMessage("User created.");
             response.setToken(token);
