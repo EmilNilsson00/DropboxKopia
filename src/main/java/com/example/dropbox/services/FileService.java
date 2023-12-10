@@ -38,20 +38,20 @@ public class FileService {
             UnauthorizedException,
             NotfoundException {
         User user = CheckAuth.checkAuth();
-        System.out.println("1");
+
         Folder folder = folderRepository.findFolderById(folderId)
                 .orElseThrow(() -> new NotfoundException("File with ID: " + folderId + " not found"));
-        System.out.println("2");
+
         if (!folder.getUser().getId().equals(user.getId())) {
             throw new UnauthorizedException("Unauthorized to Upload to folder with ID: " + folderId);
         }
-        System.out.println("3");
-        File response = fileRepository.save(File.builder()
+        File response = File.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .folder(folder)
                 .user(user)
-                .fileData(file.getBytes()).build());
+                .fileData(file.getBytes()).build();
+        fileRepository.save(response);
         if (response != null) {
             return "File uploaded: " + file.getOriginalFilename();
         }
@@ -59,36 +59,45 @@ public class FileService {
     }
 
     @Transactional
-    public File downloadFile(String fileName) throws FileNotFoundException {
+    public File downloadFile(UUID id) throws FileNotFoundException {
         User user = CheckAuth.checkAuth();
+        Optional<File> dbFile = fileRepository.findById(id);
 
-        Optional<File> dbFile = fileRepository.findByName(fileName);
         if (dbFile.isPresent()) {
-            var file =  dbFile.get();
+            var file = dbFile.get();
             if (!file.getUser().getId().equals(user.getId())) {
                 throw new UnauthorizedException("Unauthorized to download file with ID: " + file.getId());
             }
             return file;
         } else {
-            throw new FileNotFoundException("File not found: " + fileName);
+            throw new FileNotFoundException("File not found: " + id);
         }
     }
 
-    public String deleteFileById(UUID id) throws FileNotFoundException {
+    public String deleteFileById(UUID id) throws NotfoundException {
         User user = CheckAuth.checkAuth();
-        System.out.println("1");
         File dbFile = fileRepository.findById(id)
                 .orElseThrow(() -> new NotfoundException("File not found"));
-        System.out.println("2");
+
         if (!dbFile.getUser().getId().equals(user.getId())) {
             throw new UnauthorizedException("Unauthorized to delete file with ID: " + dbFile.getId());
         }
-        System.out.println("3");
         fileRepository.deleteById(id);
-        System.out.println("4");
         return "Successfully deleted file with id: " + id;
     }
 
+    @Transactional
+    public File getFileById(UUID id) throws UnauthorizedException, NotfoundException {
+        User user = CheckAuth.checkAuth();
+        File dbFile = fileRepository.findById(id)
+                .orElseThrow(() -> new NotfoundException("File not found with id: " + id));
+
+        if (!dbFile.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedException("Unauthorized to show file with ID: " + dbFile.getId());
+        }
+
+        return dbFile;
+    }
 
 
 }

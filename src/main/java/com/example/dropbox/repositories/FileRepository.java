@@ -7,10 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FileRepository extends JpaRepository<File, UUID> {
-    Optional<File> findFileByName(String name);
 
     Optional<File> findByName(String name);
 
-    Optional<File> findById(UUID id);
 
 }

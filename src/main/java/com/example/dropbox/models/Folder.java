@@ -26,6 +26,6 @@ public class Folder {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "folder")
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<File> files;
 }

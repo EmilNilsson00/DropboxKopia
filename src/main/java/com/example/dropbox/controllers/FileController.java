@@ -1,5 +1,6 @@
 package com.example.dropbox.controllers;
 
+import Exceptions.UnauthorizedException;
 import com.example.dropbox.models.File;
 import com.example.dropbox.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,15 @@ public class FileController {
     private FileService service;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file")MultipartFile file, @RequestParam("folderId") UUID folderId) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") UUID folderId) throws IOException {
 
         String uploadFile = service.uploadFile(file, folderId);
         return ResponseEntity.ok(uploadFile);
     }
 
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<?> downloadFile(@PathVariable String fileName) throws FileNotFoundException {
-        File fileContent = service.downloadFile(fileName);
+    @GetMapping("/download/{id}")
+    public ResponseEntity<?> downloadFile(@PathVariable UUID id) throws FileNotFoundException {
+        File fileContent = service.downloadFile(id);
         ByteArrayResource resource = new ByteArrayResource(fileContent.getFileData());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -42,8 +43,13 @@ public class FileController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteFile(@PathVariable UUID id) throws FileNotFoundException {
+    public ResponseEntity<String> deleteFile(@PathVariable UUID id) {
         return ResponseEntity.ok(service.deleteFileById(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<File> getFileById(@PathVariable UUID id) throws UnauthorizedException {
+        return ResponseEntity.ok(service.getFileById(id));
     }
 
 }
