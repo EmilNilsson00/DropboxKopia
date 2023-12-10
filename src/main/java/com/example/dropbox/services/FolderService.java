@@ -38,18 +38,6 @@ public class FolderService {
         return folder;
     }
 
-    public Folder deleteFolderById(UUID id) throws UnauthorizedException, NotfoundException {
-        User user = CheckAuth.checkAuth();
-        Folder folder = folderRepository.findById(id)
-                .orElseThrow(() -> new NotfoundException("Folder with id '" + id + "' not found."));
-
-        if (!folder.getUser().getId().equals(user.getId())) {
-            throw new UnauthorizedException("You aren't authorized to complete this action.");
-        }
-
-        folderRepository.deleteById(id);
-        return folder;
-    }
 
     public GetFolderDto getFolderById(UUID id) throws UnauthorizedException, NotfoundException {
         User user = CheckAuth.checkAuth();
@@ -75,5 +63,17 @@ public class FolderService {
     private String getFileDownloadLink(File file) {
 
         return "/files/download/" + file.getId();
+    }
+
+    public String deleteFolderById(UUID id) throws NotfoundException {
+        User user = CheckAuth.checkAuth();
+        Folder dbFolder = folderRepository.findById(id)
+                .orElseThrow(() -> new NotfoundException("Folder not found"));
+
+        if (!dbFolder.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedException("Unauthorized to delete folder with ID: " + dbFolder.getId());
+        }
+        folderRepository.deleteById(id);
+        return "Successfully deleted folder with id: " + id;
     }
 }
