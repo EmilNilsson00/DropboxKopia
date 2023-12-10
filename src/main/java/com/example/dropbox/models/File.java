@@ -20,7 +20,7 @@ public class File {
     private String name;
     private String type;
     @Lob
-    @Column(name = "file_data", length = 1000)
+    @Column(name = "file_data")
     private byte[] fileData;
 
     @ManyToOne

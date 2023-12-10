@@ -22,10 +22,10 @@ public class Folder {
     private String name;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnore
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "folder")
     private List<File> files;
 }
