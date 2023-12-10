@@ -14,14 +14,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "file")
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(unique = true)
     private String name;
     private String type;
+
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "file_data")
     private byte[] fileData;
 

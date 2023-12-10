@@ -86,7 +86,7 @@ public class FileService {
         return "Successfully deleted file with id: " + id;
     }
 
-    @Transactional
+
     public File getFileById(UUID id) throws UnauthorizedException, NotfoundException {
         User user = CheckAuth.checkAuth();
         File dbFile = fileRepository.findById(id)
