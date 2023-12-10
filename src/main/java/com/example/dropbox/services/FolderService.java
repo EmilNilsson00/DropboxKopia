@@ -52,7 +52,7 @@ public class FolderService {
         String folderName = dbFolder.getName() != null ? dbFolder.getName() : "";
         System.out.println("Folder Name: " + folderName);
 
-        GetFolderDto  getFolderDTO = new GetFolderDto(dbFolder.getId(), folderName, getFileDtos);
+        GetFolderDto getFolderDTO = new GetFolderDto(dbFolder.getId(), folderName, getFileDtos);
 
         if (!dbFolder.getUser().getId().equals(user.getId())) {
             throw new UnauthorizedException("Unauthorized to show folder with ID: " + dbFolder.getId());
@@ -60,6 +60,7 @@ public class FolderService {
 
         return getFolderDTO;
     }
+
     private String getFileDownloadLink(File file) {
 
         return "/files/download/" + file.getId();

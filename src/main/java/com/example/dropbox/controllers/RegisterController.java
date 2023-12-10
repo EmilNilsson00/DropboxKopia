@@ -18,7 +18,7 @@ public class RegisterController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterDto request) {
         AuthenticationResponseDto response = userService.register(request);
-        if (response.isError()){
+        if (response.isError()) {
             return ResponseEntity.badRequest().body((response));
         }
         return ResponseEntity.ok(response);

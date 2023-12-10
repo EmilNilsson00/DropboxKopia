@@ -21,18 +21,18 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private PasswordEncoder encoder;
 
- @Autowired
-     public UserService(
-             UserRepository userRepository,
-             PasswordEncoder encoder) {
-         this.userRepository = userRepository;
-         this.encoder = encoder;
+    @Autowired
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.encoder = encoder;
 
-         var existing = this.userRepository.findByUsername("admin");
-         if(existing.isEmpty()) {
-             this.userRepository.save(new User("admin", "admin@admin.se", encoder.encode("admin")));
-         }
-     }
+        var existing = this.userRepository.findByUsername("admin");
+        if (existing.isEmpty()) {
+            this.userRepository.save(new User("admin", "admin@admin.se", encoder.encode("admin")));
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username)
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
         Optional<User> UsernameAlreadyExists = userRepository.findByUsername(registerDto.getUsername());
 
 
-        if ( EmailAlreadyExists.isPresent()) {
+        if (EmailAlreadyExists.isPresent()) {
             AuthenticationResponseDto response = new AuthenticationResponseDto();
             response.setError(true);
             response.setToken(null);
@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
 
             return response;
 
-        } else if ( UsernameAlreadyExists.isPresent()) {
+        } else if (UsernameAlreadyExists.isPresent()) {
             AuthenticationResponseDto response = new AuthenticationResponseDto();
             response.setError(true);
             response.setToken(null);

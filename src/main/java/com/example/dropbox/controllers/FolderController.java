@@ -3,7 +3,6 @@ package com.example.dropbox.controllers;
 import Exceptions.UnauthorizedException;
 import com.example.dropbox.dtos.FolderDto;
 import com.example.dropbox.dtos.GetFolderDto;
-import com.example.dropbox.models.File;
 import com.example.dropbox.models.Folder;
 import com.example.dropbox.services.FolderService;
 import jakarta.transaction.Transactional;
@@ -24,7 +23,7 @@ public class FolderController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Folder> createFolder (@RequestBody FolderDto folderDto) {
+    public ResponseEntity<Folder> createFolder(@RequestBody FolderDto folderDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(folderService.createFolder(folderDto.getFolder()));
     }
 

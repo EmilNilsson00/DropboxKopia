@@ -36,6 +36,7 @@ public class ExceptionHandlerController {
                         .message(e.getMessage())
                         .build());
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleException(Exception e) {
         System.out.println(e.getMessage() + " Exception.class");
