@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "dropbox_user")
+@Table(name = "dropboxuser")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,10 +26,10 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Folder> folders;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<File> files;
 
     public User(String username, String email, String password) {

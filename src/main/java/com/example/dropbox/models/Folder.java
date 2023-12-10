@@ -1,5 +1,6 @@
 package com.example.dropbox.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,8 @@ public class Folder {
     private String name;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
     @OneToMany

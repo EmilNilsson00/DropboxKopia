@@ -17,8 +17,6 @@ public class FolderService {
     @Autowired
     private FolderRepository folderRepository;
 
-    public
-    User user = CheckAuth.checkAuth();
 
     public Folder createFolder(Folder folderRequest) throws IllegalArgumentException {
         User user = CheckAuth.checkAuth();
